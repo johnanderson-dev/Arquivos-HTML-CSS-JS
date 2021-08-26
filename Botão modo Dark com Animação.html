@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+  
+html {
+    height: 100%;
+    font-family: 'Montserrat';
+
+    display: grid;
+    align-items: center;
+    justify-items: center;
+
+    --bg: #FCFCFC;
+    --bg-panel: #EBEBEB;
+    --color-headings: #0067FF;
+    --color-text: #333333;
+}
+
+body {
+    background-color: var(--bg);
+}
+
+.container {
+    background-color: var(--bg-panel);
+
+    margin: 5em;
+    padding: 5em;
+
+    border-radius: 15px;
+
+    display: grid;
+    grid-template-columns: 80% auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+        "title switch"
+        "content content"
+    ;
+}
+
+h1 {
+    margin: 0;
+    color: var(--color-headings);
+}
+
+p {
+    color: var(--color-text);
+    grid-area: content;
+    font-size: 1.1em;
+    line-height: 1.8em;
+    margin-top: 2em;
+}
+
+/* Caixa Input Checkbox*/
+
+input[type=checkbox]{   
+    height: 0;          /*Altura do Checkbox 0*/
+    width: 0;           /*LArgura do Checkbox 0*/
+    visibility: hidden;       /*Informa que o checkbos não será visivel*/
+}
+
+              /*Caixa na qual o Botão está dentro*/
+
+label {
+    cursor: pointer;        /*Significa que tuda sera clicavel*/
+    text-indent: -9999px;   /*Texto terá camadas superiores*/
+    width: 52px;            /*Largura do Caixa*/
+    height: 27px;           /*Altura da Caixa*/
+    background: grey;       /*Cor de fundo ca caixa*/
+    float: right;           /*Flutar à direita*/
+    border-radius: 100px;   /*Bordas Arrendondas da caixa*/
+    position: relative;     /*Posição em relação ao sua div Pai*/
+}
+
+           /*Adicionar um elemento depois do label*/
+
+label::after{
+    content: '';        /*Tipo de conteudo a ser adicionado*/
+    position: absolute; /* Posição em relação ao corpo da página*/
+    top: 3px;           /*Distancia do top*/
+    left: 3px;          /*Distancia da esquerda*/ 
+    width: 20px;        /*Largura do elemento*/
+    height: 20px;       /*Altura do elemento*/
+    background-color: white; /*Cor do elemento*/
+    border-radius: 90px;     /*Bordas arrendondadas*/
+    transition: 0.3s;        /*Tempo de transição do Elemento*/
+}
+
+/*A Cor de fundo da caixa vai mudar quando o checkbox estiver chequado*/
+
+input:checked + label {  /*Diz que quando o input checkbox estiver mais o label irá ficar: */
+   background-color: var(--color-headings); /*Irá mudar a cor de fundo para*/
+}
+
+/*Ação de movimentar o elemento quando estiver no estado de checked*/
+input:checked + label::after {
+    left: calc(100% - 5px); /*Irá se movimentar 100% a esquerda em relação à caixa (desnecessario)*/ 
+    transform: translateX(-100%);/* só setar o translate com o px correto */
+}
+
+label:active:after {
+    width: 45px; /* Diz que quando eu clicar no elemento irá achatar a largura para 45 px dando efeito legal*/
+}
+
+
+
+  </style>
+	<title></title>
+
+
+     <script>
+   
+            const html = document.querySelector("html")
+const checkbox = document.querySelector("input[name=theme]")
+
+const getStyle = (element, style) => 
+    window
+        .getComputedStyle(element)
+        .getPropertyValue(style)
+
+
+const initialColors = {
+    bg: getStyle(html, "--bg"),
+    bgPanel: getStyle(html, "--bg-panel"),
+    colorHeadings: getStyle(html, "--color-headings"),
+    colorText: getStyle(html, "--color-text"),
+}
+
+const darkMode = {
+    bg: "#333333",
+    bgPanel: "#434343",
+    colorHeadings: "#3664FF",
+    colorText: "#B5B5B5"
+}
+
+const transformKey = key => 
+    "--" + key.replace(/([A-Z])/, "-$1").toLowerCase()
+
+
+const changeColors = (colors) => {
+    Object.keys(colors).map(key => 
+        html.style.setProperty(transformKey(key), colors[key]) 
+    )
+}
+
+
+checkbox.addEventListener("change", ({target}) => {
+    target.checked ? changeColors(darkMode) : changeColors(initialColors)
+})
+
+     </script>
+</head>
+
+
+<body>
+
+<div class="container">
+        <h1>Light / Dark</h1>
+        <div class="toggle">
+            <input id="switch" type="checkbox" name="theme">
+            <label for="switch">Toggle</label>
+        </div>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quam atque pariatur officia quasi sed fugiat vitae explicabo, nesciunt quo blanditiis reprehenderit ducimus cupiditate quia, architecto, id minima inventore placeat?</p>
+    </div>
+</body>
+
+
+
+</html>
